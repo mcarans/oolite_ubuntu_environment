@@ -7,7 +7,8 @@ export CXX=/usr/bin/g++
 
 run_script() {
     cd tools-make
-    if ! ./configure --prefix=/usr --with-library-combo=gnu-gnu-gnu --with-libdir=lib --with-objc-lib-flag="-L/usr/lib/x86_64-linux-gnu/ -lobjc_gc"; then
+    make distclean
+    if ! ./configure --prefix=/usr --with-library-combo=gnu-gnu-gnu --with-libdir=lib --with-objc-lib-flag="-L/usr/lib/x86_64-linux-gnu/ -l:libobjc.so.4"; then
         echo "tools-make configure failed!"
         return 1
     fi
@@ -16,6 +17,7 @@ run_script() {
     cd ..
 
     cd libs-base
+    make distclean
     . /usr/share/GNUstep/Makefiles/GNUstep.sh
     if ! ./configure --prefix=/usr; then
         echo "libs-base configure failed!"
